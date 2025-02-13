@@ -1,0 +1,50 @@
+- Biên dịch và chạy chương trình openmp
+Vd: + clang -Xpreprocessor -fopenmp tdtoan1.c -o tdtoan1 $LDFLAGS -lomp $CPPFLAGS
+    + ./tdtoan1
+- Kiểm tra số lõi trên hệ thống
+Vd: sysctl -n hw.physicalcpu
+- Biên dịch và chạy chương trình pthread
+    + clang -o tdtoan1 tdtoan1.c -pthread
+
+
+- definition parallel
+    + concurrency: số lượng luồng thực thi trong một thời điểm
+    + parallelism: số lượng luồng thực thi thực sự trong một thời điểm 
+    + thread: luồng thực thi
+- constructs
+    #pragma omp construct [clause]
+    eg: #pragma omp parallel num_threads(4)
+- functions prototype
+    #include <omp.h>
+
+- functions
+    + omp_get_thread_num(): trả về id của luồng thực thi
+    + omp_get_num_threads(): trả về số lượng luồng thực thi
+    + omp_get_num_procs(): trả về số lõi của hệ thống
+    + omp_set_num_threads(4): thiết lập số lượng luồng thực thi là 4
+    + omp_get_wtime(): trả về thời gian hiện tại
+
+- high level synchronization
+    + critical: khoá các luồng chỉ có một luồng được thực thi
+    + barrier: Đồng bộ tất cả các thread, yêu cầu tất cả phải dừng lại và chờ nhau hoàn thành công việc trước khi tiếp tục.
+    + atomic = critical: chỉ có một luồng được thực thi nhưng không khoá tất cả các luồng
+
+- loop Worksharing construct:
+    + #pragma omp for: chia công việc cho các luồng
+    + the schedule clause: 
+        + static: chia công việc cố định cho các luồng
+        eg: #pragma omp for schedule(static, 2)
+        + dynamic: chia công việc động cho các luồng
+        eg: #pragma omp for schedule(dynamic, 2)
+        + guided: chia công việc giảm dần cho các luồng
+        eg: #pragma omp for schedule(guided, 2)
+        + runtime: chia công việc tại thời điểm chạy
+        eg: #pragma omp for schedule(runtime)
+    + shorthand: #pragma omp parallel for: chia công việc cho các luồng và tạo ra các luồng
+    + reduction: giảm biến
+        eg: #pragma omp parallel for reduction(+:sum)
+        + operation: +, -, *, /, &, |, ^, &&, ||, max, min
+- diractives:
+    + master: chỉ một đoạn mã được thực thi bởi luồng chính (master thread)
+    + first private: biến được khai báo và khởi tạo giá trị cho mỗi luồng
+    + last private: biến được khai báo và giữ giá trị của luồng cuối cùng
