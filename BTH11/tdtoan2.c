@@ -18,7 +18,7 @@ void *calculate_sum(void *threadid) {
     }
 
     pthread_mutex_lock(&mutex);  
-    c
+    sum += local_sum;
     pthread_mutex_unlock(&mutex);
 
     pthread_exit(NULL);

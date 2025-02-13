@@ -48,3 +48,23 @@ Vd: sysctl -n hw.physicalcpu
     + master: chỉ một đoạn mã được thực thi bởi luồng chính (master thread)
     + first private: biến được khai báo và khởi tạo giá trị cho mỗi luồng
     + last private: biến được khai báo và giữ giá trị của luồng cuối cùng
+
+- pthread:
+    + pthread_create(*thread, NULL, function, arg): tạo ra một luồng mới
+    + pthread_join(thread, NULL): đợi luồng hoàn thành và thu kết quả
+    + pthread_exit(NULL): kết thúc luồng hiện tại
+- mutex: Dùng để đảm bảo chỉ một luồng có thể truy cập vào tài nguyên chung tại một thời điểm
+    + pthread_mutex_init(&mutex, NULL): khởi tạo mutex
+    + pthread_mutex_lock(&mutex): khoá mutex (nếu mutex đã bị khoá, luồng sẽ bị chặn cho đến khi mutex được mở)
+    + pthread_mutex_unlock(&mutex): mở mutex
+    + pthread_mutex_destroy(&mutex): giải phóng mutex
+- barrier: Đồng bộ tất cả các thread, yêu cầu tất cả phải dừng lại và chờ nhau hoàn thành công việc trước khi tiếp tục.
+    + pthread_barrier_init(&barrier, NULL, count): khởi tạo barrier
+    + pthread_barrier_wait(&barrier): đợi tất cả các luồng đến barrier
+    + pthread_barrier_destroy(&barrier): giải phóng barrier
+- condition variable: Dùng để đợi một điều kiện xảy ra
+    + pthread_cond_init(&cond, NULL): khởi tạo condition variable
+    + pthread_cond_wait(&cond, &mutex): đợi điều kiện xảy ra
+    + pthread_cond_signal(&cond): báo hiệu điều kiện xảy ra
+    + pthread_cond_broadcast(&cond): báo hiệu tất cả các luồng đợi
+    + pthread_cond_destroy(&cond): giải phóng condition variable
